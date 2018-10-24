@@ -3,9 +3,10 @@ package bongo
 import (
 	"errors"
 	// "fmt"
+	"time"
+
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
-	"time"
 	// "math"
 	"strings"
 )
@@ -212,6 +213,8 @@ func (c *Collection) FindById(id bson.ObjectId, doc interface{}) error {
 func (c *Collection) Find(query interface{}) *ResultSet {
 	col := c.Collection()
 
+	query = toLowerCase(query)
+
 	// Count for testing
 	q := col.Find(query)
 
@@ -224,7 +227,19 @@ func (c *Collection) Find(query interface{}) *ResultSet {
 	return resultset
 }
 
+func toLowerCase(query interface{}) (q interface{}) {
+	// Okay who thought that silently dropping uppercase letters on insert and let them remain in a query was a good idea?
+	lowerQuery := bson.M{}
+	qu := query.(bson.M)
+	for k, v := range qu {
+		lowerQuery[strings.ToLower(k)] = v
+	}
+	q = lowerQuery
+	return
+}
+
 func (c *Collection) FindOne(query interface{}, doc interface{}) error {
+	query = toLowerCase(query)
 
 	// Now run a find
 	results := c.Find(query)
@@ -236,10 +251,8 @@ func (c *Collection) FindOne(query interface{}, doc interface{}) error {
 		// There could have been an error fetching the next one, which would set the Error property on the resultset
 		if results.Error != nil {
 			return results.Error
-		} else {
-			return &DocumentNotFoundError{}
 		}
-
+		return &DocumentNotFoundError{}
 	}
 
 	if newt, ok := doc.(NewTracker); ok {
