@@ -300,13 +300,16 @@ func (c *Collection) Delete(query bson.M) (*mgo.ChangeInfo, error) {
 	sess := c.Connection.Session.Clone()
 	defer sess.Close()
 	col := c.collectionOnSession(sess)
+	query = toLowerCase(query).(bson.M)
 	return col.RemoveAll(query)
 }
 
 // Convenience method which just delegates to mgo. Note that hooks are NOT run
 func (c *Collection) DeleteOne(query bson.M) error {
+
 	sess := c.Connection.Session.Clone()
 	defer sess.Close()
 	col := c.collectionOnSession(sess)
+	query = toLowerCase(query).(bson.M)
 	return col.Remove(query)
 }
