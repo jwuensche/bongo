@@ -1,12 +1,13 @@
-# What's Bongo?
+# What's Bongo2?
 We couldn't find a good ODM for MongoDB written in Go, so we made one. Bongo is a wrapper for mgo (https://github.com/go-mgo/mgo) that adds ODM, hooks, validation, and cascade support to its raw Mongo functions.
 
 Bongo is tested using the fantasic GoConvey (https://github.com/smartystreets/goconvey)
 
+
+[![goreport](https://goreportcard.com/badge/github.com/jwuensche/bongo)](https://goreportcard.com/report/github.com/jwuensche/bongo)
 [![Build Status](https://travis-ci.org/go-bongo/bongo.svg)](https://travis-ci.org/go-bongo/bongo)
-
 [![Coverage Status](https://coveralls.io/repos/go-bongo/bongo/badge.svg)](https://coveralls.io/r/go-bongo/bongo)
-
+[![Godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/jwuensche/bongo)
 # Stablity
 
 Since we're not yet at a major release, some things in the API might change. Here's a list:

@@ -1,11 +1,12 @@
 package bongo
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
-	"github.com/globalsign/mgo/bson"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/globalsign/mgo/bson"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 type Parent struct {

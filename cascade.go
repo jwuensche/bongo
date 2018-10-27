@@ -2,10 +2,10 @@ package bongo
 
 import (
 	"errors"
-	"github.com/go-bongo/go-dotaccess"
-	"github.com/oleiade/reflections"
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
+	"github.com/go-bongo/go-dotaccess"
+	"github.com/oleiade/reflections"
 	"strings"
 )
 

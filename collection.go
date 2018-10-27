@@ -2,13 +2,12 @@ package bongo
 
 import (
 	"errors"
-	// "fmt"
 	"time"
+
+	"strings"
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
-	// "math"
-	"strings"
 )
 
 type BeforeSaveHook interface {
@@ -189,9 +188,8 @@ func (c *Collection) FindById(id bson.ObjectId, doc interface{}) error {
 	if err != nil {
 		if err == mgo.ErrNotFound {
 			return &DocumentNotFoundError{}
-		} else {
-			return err
 		}
+		return err
 	}
 
 	if hook, ok := doc.(AfterFindHook); ok {
@@ -210,6 +208,7 @@ func (c *Collection) FindById(id bson.ObjectId, doc interface{}) error {
 
 // This doesn't actually do any DB interaction, it just creates the result set so we can
 // start looping through on the iterator
+// Find returns an iterablable set of query results
 func (c *Collection) Find(query interface{}) *ResultSet {
 	col := c.Collection()
 
@@ -238,6 +237,7 @@ func toLowerCase(query interface{}) (q interface{}) {
 	return
 }
 
+//FindOne maps the result of a single query directly to the given interface
 func (c *Collection) FindOne(query interface{}, doc interface{}) error {
 	query = toLowerCase(query)
 
@@ -262,6 +262,7 @@ func (c *Collection) FindOne(query interface{}, doc interface{}) error {
 	return nil
 }
 
+//DeleteDocuments removes the given document, hooks are executed
 func (c *Collection) DeleteDocument(doc Document) error {
 	var err error
 	// Create a new session per mgo's suggestion to avoid blocking
@@ -295,7 +296,7 @@ func (c *Collection) DeleteDocument(doc Document) error {
 
 }
 
-// Convenience method which just delegates to mgo. Note that hooks are NOT run
+//Delete delegates the remove query to mgo, hooks are not run
 func (c *Collection) Delete(query bson.M) (*mgo.ChangeInfo, error) {
 	sess := c.Connection.Session.Clone()
 	defer sess.Close()
@@ -304,7 +305,7 @@ func (c *Collection) Delete(query bson.M) (*mgo.ChangeInfo, error) {
 	return col.RemoveAll(query)
 }
 
-// Convenience method which just delegates to mgo. Note that hooks are NOT run
+//DeleteOne removes a single document from mgo
 func (c *Collection) DeleteOne(query bson.M) error {
 
 	sess := c.Connection.Session.Clone()
@@ -312,4 +313,36 @@ func (c *Collection) DeleteOne(query bson.M) error {
 	col := c.collectionOnSession(sess)
 	query = toLowerCase(query).(bson.M)
 	return col.Remove(query)
+}
+
+// Update changes the value of a single document based on the selector with values of update
+func (c *Collection) Update(selector bson.M, update bson.M) (err error) {
+	sess := c.Connection.Session.Clone()
+	defer sess.Clone()
+	col := c.collectionOnSession(sess)
+	selector = toLowerCase(selector).(bson.M)
+	update = toLowerCase(update).(bson.M)
+	err = col.Update(selector, update)
+	return
+}
+
+// UpdateAll changes the value of all documents based on the selector with values of update
+func (c *Collection) UpdateAll(selector bson.M, update bson.M) (changes *mgo.ChangeInfo, err error) {
+	sess := c.Connection.Session.Clone()
+	defer sess.Clone()
+	col := c.collectionOnSession(sess)
+	selector = toLowerCase(selector).(bson.M)
+	update = toLowerCase(update).(bson.M)
+	changes, err = col.UpdateAll(selector, update)
+	return
+}
+
+// UpdateId changes the value of a single document based on the id with values of update
+func (c *Collection) UpdateId(id interface{}, update bson.M) (err error) {
+	sess := c.Connection.Session.Clone()
+	defer sess.Clone()
+	col := c.collectionOnSession(sess)
+	update = toLowerCase(update).(bson.M)
+	err = col.UpdateId(id, update)
+	return
 }

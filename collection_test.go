@@ -2,9 +2,10 @@ package bongo
 
 import (
 	"errors"
-	. "github.com/smartystreets/goconvey/convey"
-	"github.com/globalsign/mgo/bson"
 	"testing"
+
+	"github.com/globalsign/mgo/bson"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 type noHookDocument struct {
@@ -61,6 +62,10 @@ func (v *validatedDocument) Validate(c *Collection) []error {
 }
 
 func TestCollection(t *testing.T) {
+
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
 
 	conn := getConnection()
 	defer conn.Session.Close()
