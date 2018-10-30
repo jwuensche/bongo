@@ -337,8 +337,8 @@ func (c *Collection) UpdateAll(selector bson.M, update bson.M) (changes *mgo.Cha
 	return
 }
 
-// UpdateId changes the value of a single document based on the id with values of update
-func (c *Collection) UpdateId(id interface{}, update bson.M) (err error) {
+// UpdateID changes the value of a single document based on the id with values of update
+func (c *Collection) UpdateID(id interface{}, update bson.M) (err error) {
 	sess := c.Connection.Session.Clone()
 	defer sess.Clone()
 	col := c.collectionOnSession(sess)

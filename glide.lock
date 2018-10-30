@@ -1,0 +1,32 @@
+hash: f5ed23cca1b397def8aa49f7c26accdcf1f6814e03bb5e57a9292fd25963c705
+updated: 2018-10-30T16:44:25.617017261+01:00
+imports:
+- name: github.com/globalsign/mgo
+  version: eeefdecb41b842af6dc652aaea4026e8403e62df
+  subpackages:
+  - bson
+  - internal/json
+  - internal/sasl
+  - internal/scram
+- name: github.com/go-bongo/go-dotaccess
+  version: ae070a2d2a38fd7233e255ded21fb26fe36b4796
+- name: github.com/oleiade/reflections
+  version: 2b6ec3da648e3e834dc41bad8d9ed7f2dc6a9496
+testImports:
+- name: github.com/gopherjs/gopherjs
+  version: 0766667cb4d1cfb8d5fde1fe210ae41ead3cf589
+  subpackages:
+  - js
+- name: github.com/jtolds/gls
+  version: 77f18212c9c7edc9bd6a33d383a7b545ce62f064
+- name: github.com/smartystreets/assertions
+  version: b2de0cb4f26d0705483a2f495d89896d0b808573
+  subpackages:
+  - internal/go-render/render
+  - internal/oglematchers
+- name: github.com/smartystreets/goconvey
+  version: 9e8dc3f972df6c8fcc0375ef492c24d0bb204857
+  subpackages:
+  - convey
+  - convey/gotest
+  - convey/reporting
