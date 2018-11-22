@@ -24,13 +24,7 @@ Since we're not yet at a major release, some things in the API might change. Her
 
 ## Basic Usage
 ### Import the Library
-`go get github.com/go-bongo/bongo`
-
-`import "github.com/go-bongo/bongo"`
-
-And install dependencies:
-
-`cd $GOHOME/src/github.com/go-bongo/bongo && go get .`
+`go get github.com/jwuensche/trommel`
 
 ### Connect to a Database
 
